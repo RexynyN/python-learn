@@ -1,4 +1,3 @@
-
 from PyPDF4 import PdfFileReader
 
 def extract_information(pdf_path):

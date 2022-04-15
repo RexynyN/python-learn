@@ -72,16 +72,3 @@ for float_ids in float_ids:
 
 for f_final in f_final:
     print(f_final)
-
-
-
-
-
-
-
-
-
-
-
-    
-
