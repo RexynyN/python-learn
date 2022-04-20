@@ -1,0 +1,355 @@
+
+        .lst-kix_8x2nj99baj87-5>li:before {
+            content: "\0025a0  "
+        }
+
+        .lst-kix_8x2nj99baj87-3>li:before {
+            content: "\0025cf  "
+        }
+
+        .lst-kix_8x2nj99baj87-7>li:before {
+            content: "\0025cb  "
+        }
+
+        ul.lst-kix_8x2nj99baj87-8 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8x2nj99baj87-7 {
+            list-style-type: none
+        }
+
+        .lst-kix_8x2nj99baj87-2>li:before {
+            content: "\0025a0  "
+        }
+
+        .lst-kix_8x2nj99baj87-6>li:before {
+            content: "\0025cf  "
+        }
+
+        ul.lst-kix_8x2nj99baj87-6 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8x2nj99baj87-5 {
+            list-style-type: none
+        }
+
+        .lst-kix_8x2nj99baj87-1>li:before {
+            content: "\0025cb  "
+        }
+
+        .lst-kix_8x2nj99baj87-0>li:before {
+            content: "\0025cf  "
+        }
+
+        .lst-kix_8x2nj99baj87-8>li:before {
+            content: "\0025a0  "
+        }
+
+        ul.lst-kix_8x2nj99baj87-4 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8x2nj99baj87-3 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8x2nj99baj87-2 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8x2nj99baj87-1 {
+            list-style-type: none
+        }
+
+        ul.lst-kix_8x2nj99baj87-0 {
+            list-style-type: none
+        }
+
+        .lst-kix_8x2nj99baj87-4>li:before {
+            content: "\0025cb  "
+        }
+
+        ol {
+            margin: 0;
+            padding: 0
+        }
+
+        table td,
+        table th {
+            padding: 0
+        }
+
+        .c8 {
+            color: #000000;
+            font-weight: 700;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 12pt;
+            font-family: "Georgia";
+            font-style: normal
+        }
+
+        .c3 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 16pt;
+            font-family: "Liberation Serif";
+            font-style: normal
+        }
+
+        .c2 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 18pt;
+            font-family: "Georgia";
+            font-style: normal
+        }
+
+        .c1 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 12pt;
+            font-family: "Georgia";
+            font-style: normal
+        }
+
+        .c9 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            vertical-align: baseline;
+            font-size: 12pt;
+            font-family: "Liberation Serif";
+            font-style: normal
+        }
+
+        .c17 {
+            color: #000000;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 28pt;
+            font-family: "Georgia";
+            font-style: normal
+        }
+
+        .c20 {
+            color: #000000;
+            font-weight: 400;
+            text-decoration: none;
+            font-size: 12pt;
+            font-family: "Times New Roman";
+            font-style: normal
+        }
+
+        .c5 {
+            padding-top: 28.4pt;
+            padding-bottom: 28.4pt;
+            line-height: 1.0;
+            page-break-after: avoid;
+            text-align: center
+        }
+
+        .c0 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.5;
+            text-indent: 14.2pt;
+            text-align: left
+        }
+
+        .c19 {
+            margin-left: 36pt;
+            padding-top: 28.4pt;
+            padding-bottom: 8.5pt;
+            line-height: 1.0;
+            text-align: center
+        }
+
+        .c7 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.0;
+            text-indent: 14.2pt;
+            text-align: left
+        }
+
+        .c11 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.5;
+            text-align: left
+        }
+
+        .c18 {
+            color: #000000;
+            text-decoration: none;
+            font-size: 12pt;
+            font-style: italic
+        }
+
+        .c21 {
+            padding-top: 0pt;
+            padding-bottom: 0pt;
+            line-height: 1.0;
+            text-align: left
+        }
+
+        .c14 {
+            color: #000000;
+            text-decoration: none;
+            font-size: 16pt;
+            font-style: normal
+        }
+
+        .c6 {
+            padding-top: 28.4pt;
+            padding-bottom: 28.4pt;
+            line-height: 1.0;
+            text-align: center
+        }
+
+        .c15 {
+            padding-top: 28.4pt;
+            padding-bottom: 28.4pt;
+            line-height: 1.0;
+            text-align: left
+        }
+
+        .c12 {
+            background-color: #ffffff;
+            max-width: 481.9pt;
+            padding: 56.7pt 56.7pt 56.7pt 56.7pt
+        }
+
+        .c13 {
+            font-weight: 400;
+            font-family: "Georgia"
+        }
+
+        .c16 {
+            height: 18pt
+        }
+
+        .c4 {
+            height: 12pt
+        }
+
+        .c10 {
+            vertical-align: baseline
+        }
+
+        .title {
+            padding-top: 0pt;
+            color: #000000;
+            font-weight: 700;
+            font-size: 28pt;
+            padding-bottom: 0pt;
+            font-family: "Liberation Serif";
+            line-height: 1.0;
+            text-align: center
+        }
+
+        .subtitle {
+            padding-top: 18pt;
+            color: #666666;
+            font-size: 24pt;
+            padding-bottom: 4pt;
+            font-family: "Georgia";
+            line-height: 1.0;
+            page-break-after: avoid;
+            font-style: italic;
+            text-align: left
+        }
+
+        li {
+            color: #000000;
+            font-size: 12pt;
+            font-family: "Times New Roman"
+        }
+
+        p {
+            margin: 0;
+            color: #000000;
+            font-size: 12pt;
+            font-family: "Times New Roman"
+        }
+
+        h1 {
+            padding-top: 24pt;
+            color: #000000;
+            font-weight: 700;
+            font-size: 24pt;
+            padding-bottom: 6pt;
+            font-family: "Times New Roman";
+            line-height: 1.0;
+            page-break-after: avoid;
+            text-align: left
+        }
+
+        h2 {
+            padding-top: 28.4pt;
+            color: #000000;
+            font-size: 18pt;
+            padding-bottom: 28.4pt;
+            font-family: "Georgia";
+            line-height: 1.0;
+            page-break-after: avoid;
+            text-align: center
+        }
+
+        h3 {
+            padding-top: 14pt;
+            color: #000000;
+            font-weight: 700;
+            font-size: 14pt;
+            padding-bottom: 4pt;
+            font-family: "Times New Roman";
+            line-height: 1.0;
+            page-break-after: avoid;
+            text-align: left
+        }
+
+        h4 {
+            padding-top: 12pt;
+            color: #000000;
+            font-weight: 700;
+            font-size: 12pt;
+            padding-bottom: 2pt;
+            font-family: "Times New Roman";
+            line-height: 1.0;
+            page-break-after: avoid;
+            text-align: left
+        }
+
+        h5 {
+            padding-top: 11pt;
+            color: #000000;
+            font-weight: 700;
+            font-size: 11pt;
+            padding-bottom: 2pt;
+            font-family: "Times New Roman";
+            line-height: 1.0;
+            page-break-after: avoid;
+            text-align: left
+        }
+
+        h6 {
+            padding-top: 10pt;
+            color: #000000;
+            font-weight: 700;
+            font-size: 10pt;
+            padding-bottom: 2pt;
+            font-family: "Times New Roman";
+            line-height: 1.0;
+            page-break-after: avoid;
+            text-align: left
+        }
+    
