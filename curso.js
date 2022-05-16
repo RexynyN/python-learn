@@ -31,6 +31,21 @@ pagina.style.color = "orange";
 
 pagina.appendChild(texto);
 
+// Esse código é simples, mas nos próximos slides eu quero mostrar o quão genial ele realmente é.
+// Pra isso, temos que ir numa máquina do tempo para 1991, quando o primeiro site do mundo foi lançado
+// (Aqui explica como a partir daqui foi criado o HTML, que era apenas páginas com documentos linkados entre si, sem muita interação ou estilo)
+// http://info.cern.ch/hypertext/WWW/TheProject.html
+
+
+// (Falar da origem do CSS, falando que deixa mais bonito)
+
+// E o JS traz todas essas API's juntas, e ainda colocam um lógica no site!
+// Isso é genial
+// React é a prova viva disso! 
+
+
+
+
 // Agora sim, bem melhor.
 // E com isso eu acabei de mostrar pra vocês exatamente para que o javascript foi criado
 // E para o que exatamente? Fazer uma página horrível? Claro que não. 

@@ -12,13 +12,16 @@ import mutagen
 class MusicCleaner:
     def __init__ (self):
         self.path = ""
+        self.__get_blacklist()
+        self.blacklist = self.__blacklist_iterator(self.keywords, self.separators)
 
     def __init__(self, path="", all_subfolders=False):
         self.all_subfolders = all_subfolders
         self.path = path
         if path != "":
             self.files = os.listdir(path)
-        self.blacklist = self.__get_blacklist()
+        self.__get_blacklist()
+        self.blacklist = self.__blacklist_iterator(self.keywords, self.separators)
 
     def __blacklist_iterator(self, keywords, separators):
         blacklist = []
@@ -32,7 +35,7 @@ class MusicCleaner:
 
     def __get_blacklist(self):
         self.separators = [("(", ")"), ("[", "]"), ("<", ">"), ("【", "】")]
-        keywords = ["CC", "Lyrics", "Lyric", "𝙻𝚈𝚁𝙸𝙲𝚂", "With Subtitles", "With Lyrics" "Official Video", "Official Music Video", "Music Video", "Official Lyrics Video", "Lyric Video", "Lyrics Video"
+        self.keywords = ["CC", "Lyrics", "Lyric", "𝙻𝚈𝚁𝙸𝙲𝚂", "With Subtitles", "With Lyrics" "Official Video", "Official Music Video", "Music Video", "Official Lyrics Video", "Lyric Video", "Lyrics Video"
                     "Official Lyric Video", "Extended", "Extended Audio", "Audio", "Official Audio", "Clean", "Clean Audio", "Visualizer", "Official Visualizer", "MV", "AMV",
                     "Free Download", "Download", "Link in Description", "Premiere", "New Release", "HD"]
 
@@ -45,21 +48,21 @@ class MusicCleaner:
 
         self.blacklist = self.__blacklist_iterator(keywords, separators)
         
-    def check_name(self, path, file):
+    def check_name(self, filename, path=""):
         sentinel = False
-        old = file
+        old = filename
 
         for term in self.blacklist:
-            if file.find(term) != -1:
-                file = file.replace(term, "")
+            if filename.find(term) != -1:
+                filename = filename.replace(term, "")
                 sentinel = True
 
-        if sentinel:
-            cleaner = file.split(".")
-            file = f"{cleaner[0].strip()}.{cleaner[-1].strip()}"
-            replace_file(f"{path}\\{old}", f"{path}\\{file}")
+        if sentinel and path != "":
+            cleaner = filename.split(".")
+            filename = f"{cleaner[0].strip()}.{cleaner[-1].strip()}"
+            replace_file(f"{path}\\{old}", f"{path}\\{filename}")
 
-        return file
+        return filename
 
     def set_folder_cover(self, scheme=[("", "")]):
         '''
@@ -76,23 +79,21 @@ class MusicCleaner:
 
     def set_cover(self, audio_path="", image_path=""):
         # Set the track cover to a specified image:
-        try:
-            audio = ID3(audio_path)
+        audio = ID3(audio_path)
 
-            image_file = image_path.split("\\")[-1]
+        image_file = image_path.split("\\")[-1]
 
-            with open(image_path, 'rb') as albumart:
-                audio.add(APIC(
-                    encoding=3,
-                    mime=f'image/{image_file.split(".")[-1]}',
-                    type=3,
-                    desc=u'Cover',
-                    data=albumart.read()
-                ))
+        with open(image_path, 'rb') as albumart:
+            audio.add(APIC(
+                encoding=3,
+                mime=f'image/{image_file.split(".")[-1]}',
+                type=3,
+                desc=u'Cover',
+                data=albumart.read()
+            ))
 
-            audio.save(v2_version=3)
-        except Exception as e:
-            print(e.__cause__)
+        audio.save(v2_version=3)
+
 
     def get_cover(self, path):
         # get the album cover from the track itself
@@ -122,12 +123,21 @@ class MusicCleaner:
                 mp3.save(v1=0, v2_version=3)
 
                 metadata = EasyID3(path)
-                # metadata = mutagen.File(path, easy=True)
-                # metadata.add_tags()
-
                 return metadata
-            except Exception:
-                print(f"*** The file {path} might be corrupted, skipping metadata check... ***") 
+
+            except mutagen.id3.ID3NoHeaderError:
+                try:
+                    tags = ID3()
+                    tags.save(path)
+                    metadata = EasyID3(path)
+                    return metadata
+
+                except mutagen.id3.ID3NoHeaderError:
+                    print("Não foi possível ler os metadados")
+
+
+
+                
 
     def strip_all_covers(self):
         "How to remove all covers from the tracks of the directory"
@@ -143,8 +153,7 @@ class MusicCleaner:
         file = file.split(".")[0]
 
         name = file
-        chars = [char for char in name]
-        for char in chars:
+        for char in [char for char in name]:
             if char in separators:
                 name = name.split(char)
                 break
@@ -169,6 +178,17 @@ class MusicCleaner:
 
     def clean_file(self, path):
         "mesmo que o clean_music, só que no caso é com uma arquivo só"
+        pass
+
+    def set_metadata(self, path, filename, author="", title="", cover_path="", album="", check=False):
+        self.set_cover(f"{path}\\{filename}", cover_path)
+
+        meta = self.get_metadata(f"{path}\\{filename}")
+
+        meta["artist"] = self.check_name(author) if check else author 
+        meta["title"] = title
+        meta["album"] = album
+        meta.save()
 
     def refresh_path(self, path, all_subfolders=False):
         self.path = path
