@@ -64,7 +64,7 @@ class MusicCleaner:
 
         return filename
 
-    def set_folder_cover(self, scheme=[("", "")]):
+    def set_folder_cover(self, image="", scheme=[("", "")]):
         '''
         The "scheme" variable is a list of tuples that work in the following way: 
 
@@ -72,16 +72,26 @@ class MusicCleaner:
 
         If you wish to set the cover to the root of self.path, use a empty string.
         '''
-        for pair in scheme:
-            path = f"{self.path}\\{pair[0]}"
-            for file in os.listdir(path):
-                self.set_cover(f"{path}\\{file}", pair[1])
+        if self.all_subfolders:
+            for pair in scheme:
+                path = f"{self.path}\\{pair[0]}"
+                for file in os.listdir(path):
+                    self.set_cover(f"{path}\\{file}", pair[1])
+        else:
+            for file in os.listdir(self.path):
+                self.set_cover(f"{self.path}\\{file}", image)
+
 
     def set_cover(self, audio_path="", image_path=""):
         # Set the track cover to a specified image:
         audio = ID3(audio_path)
 
         image_file = image_path.split("\\")[-1]
+        print(image_file)
+
+
+        if audio.getall('APIC') != []:
+            audio.delall("APIC")
 
         with open(image_path, 'rb') as albumart:
             audio.add(APIC(
@@ -92,6 +102,7 @@ class MusicCleaner:
                 data=albumart.read()
             ))
 
+            
         audio.save(v2_version=3)
 
 
@@ -135,10 +146,7 @@ class MusicCleaner:
                 except mutagen.id3.ID3NoHeaderError:
                     print("Não foi possível ler os metadados")
 
-
-
-                
-
+                    
     def strip_all_covers(self):
         "How to remove all covers from the tracks of the directory"
 
@@ -201,11 +209,14 @@ if __name__ == "__main__":
     base_dir = askdirectory()
     # filename = askopenfilename()
 
-    cleaner = MusicCleaner(path=base_dir, all_subfolders=True)
-    cleaner.clean_music()
+    cleaner = MusicCleaner(path=base_dir, all_subfolders=False)
+    # cleaner.clean_music()
+
+    cleaner.set_folder_cover("Quarentena Vibes Parte 1.jpg")
 
     # cleaner.set_folder_cover([
     #     ("Quarentena Vibes Parte 5", "reacao.jpg"),
-    #     ("Quarentena Vibes Parte 3","reacao.jpg")])
+    #     ("Quarentena Vibes Parte 3","reacao.jpg")
+    # ])
 
 

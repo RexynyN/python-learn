@@ -11,6 +11,27 @@ from colorama import init
 init()
 
 
+# ============================== CONFIGS =========================================
+# The video/playlist url
+urls = [
+    "https://www.youtube.com/playlist?list=PL9inGG514dORjBGs3JWlK-3oa44Gdv7c7"
+]
+
+# Either "playlist" or "video"
+mode = "playlist"
+
+# Either "video" or "music"
+file = "music"
+
+# Either "thumbnail" or "custom", just if file = "music"
+cover = "custom"
+
+# if cover is "custom", uses this file path to retrieve the image, just if file = "music"
+custom_cover = "Quarentena Vibes Finale.jpg"
+
+# ================================================================================
+
+
 def clean_filename(name):
     forbidden_chars = '"*\\/\'.|?:<>'
     filename = ''.join([x if x not in forbidden_chars else '' for x in name])
@@ -81,111 +102,162 @@ def handleImg(src, name=""):
 
     return filename
 
+def download_videos(urls, path):
+    resolutions = ["1080p", "720p", "480p", "360p", "240p", "144p"]
+    audio_quality = ["160kbps", "128kbps", "70kbps", "50kbps", "48kbps"]
+    for url in urls:
+        yt = YouTube(url)
 
-# ============================== CONFIGS =========================================
-# The video/playlist url
-url = "https://www.youtube.com/playlist?list=PL9inGG514dORjBGs3JWlK-3oa44Gdv7c7"
+        print(f"Trabalhando com o vídeo: \"{yt.title}\"")
 
-# Either "playlist" or "video"
-mode = "playlist"
-
-# Either "thumbnail" or "custom"
-cover = "custom"
-
-# if cover is "custom", uses this file path to retrieve the image
-custom_cover = "Quarentena Vibes Finale.jpg"
-
-# ================================================================================
-
-
-cleaner = MusicCleaner()
-
-if mode == "playlist":
-    yt = Playlist(url)
-    queue = yt.videos
-    if queue == []:
-        print("A playslist é privada ou não existe")
-        quit()
-else:
-    yt = YouTube(url)
-    queue = [yt]
-
-# If there is no subfolder for the songs, create a new one
-songs_path = f"{os.getcwd()}\\music"
-if not os.path.isdir(songs_path):
-    os.mkdir(songs_path)
-
-prog = 0
-total = (len(queue) * 5) + 1
-for yt in queue:
-    prog += 1
-    progressbar(prog, total, message="Cleaning the metadata...")
-    # Clears the file name and brings metadata
-    clean_title = cleaner.check_name(yt.title)
-    separators = ["-", "–", "—"]
-    # If the title of the video is not the full song title (author - title), uses the channel name as the song author
-    if not any(x in clean_title for x in separators):
-        # if there is " - Topic" in the name of the channel, strips it
-        song = yt.author.replace(" - Topic", "")
-        author = song
-        song += f" - {clean_title}"
-        title = clean_title
-    else:
-        song = clean_title
-        # split all chars in the title, and find the first occurence of one of the separators, then split the string using it, to separate the title from the artist    
-        for char in [char for char in song]:
-            if char in separators:
-                name = song.split(char)
+        # Finds the best video quality to download from
+        best_res = ""
+        for res in resolutions:
+            if yt.streams.filter(resolution=res):
+                best_res = res
                 break
-        
-        author = name[0].strip()
-        title = name[1].strip()
 
-    song = clean_filename(song)
+        print(f"Melhor resolução encontrada para este vídeo é {best_res}")
+        # Checks if it has a progressive stream 
+        if yt.streams.filter(progressive=True, resolution=best_res):
+            # If there is, downloads it
+            print("Stream progressiva encontrada, baixando...")
+            stream = yt.streams.filter(progressive=True, resolution=best_res).first()
+            stream.download(path, f"{clean_filename(yt.title)}.mp4")
+            print(f"{yt.title} foi baixado com sucesso!")
+        else:
+            # If not, downloads the audio and video separatedly
+            print("O vídeo não possui uma stream progressiva, o áudio e o vídeo serão baixados separadamente.")
+            video_stream = yt.streams.filter(resolution="720p", mime_type="video/mp4", only_video=True).first()
+            
+
+            # Finds the best audio quality to download from
+            best_res = ""
+            for audio in audio_quality:
+                if yt.streams.filter(only_audio=True, abr=audio):
+                    best_res = audio
+                    break
+
+            audio_stream = yt.streams.filter(only_audio=True, abr=best_res).first()
+
+            # Downloads video
+            print("Eu tô baixando o video...")
+            video_stream.download("", "video.mp4")
+
+            # Downloads audio
+            print("Eu tô baixando o audio...")
+            audio_stream.download("", "audio.mp3")
+
+            # Using ffmpeg, merge the video and audio
+            print("Eu tô juntando os dois... (pode demorar um pouquinho dependendo do tamanho do vídeo, segura aí)")
+            status = os.system(f"ffmpeg -i video.mp4 -i audio.mp3 -c:v copy -c:a aac \"{path}\\{clean_filename(yt.title)}.mp4\" -hide_banner -loglevel error")
+
+            # Remove the individual files
+            os.remove(f"video.mp4")
+            os.remove(f"audio.mp3")
+
+            print(f"{yt.title} foi baixado com sucesso!")
+
+        print("\n")
+
+def download_songs(urls, songs_path):
+    cleaner = MusicCleaner()
+    audio_quality = ["160kbps", "128kbps", "70kbps", "50kbps", "48kbps"]
+    prog = 0
+    total = (len(urls) * 5) + 1
+    for url in urls:
+        yt = YouTube(url)
+
+        prog += 1
+        progressbar(prog, total, message="Cleaning the metadata...")
+
+        # Clears the file name and brings metadata
+        clean_title = cleaner.check_name(yt.title)
+        separators = ["-", "–", "—"]
+        # If the title of the video is not the full song title (author - title), uses the channel name as the song author
+        if not any(x in clean_title for x in separators):
+            # if there is " - Topic" in the name of the channel, strips it
+            song = yt.author.replace(" - Topic", "")
+            author = song
+            song += f" - {clean_title}"
+            title = clean_title
+        else:
+            song = clean_title
+            # split all chars in the title, and find the first occurence of one of the separators, then split the string using it, to separate the title from the artist    
+            for char in [char for char in song]:
+                if char in separators:
+                    name = song.split(char)
+                    break
+            
+            author = name[0].strip()
+            title = name[1].strip()
+
+        song = clean_filename(song)
+
+        prog += 1
+        progressbar(prog, total, message="Taking care of the cover...")
+        if cover == "custom":
+            cover_path = custom_cover
+        else:
+            # Retrieve the thumbnail, if chosen to
+            handleImg(yt.thumbnail_url, name=song)
+            cover_path=f"{os.getcwd()}\\__img_data__\\{song}.jpg"
+            crop_cover(cover_path)
+
+        prog += 1
+        progressbar(prog, total, message="Downloading the video...")
+        best_res = ""
+        for audio in audio_quality:
+            if yt.streams.filter(only_audio=True, abr=audio):
+                best_res = audio
+                break
+
+        audio_stream = yt.streams.filter(only_audio=True, abr=best_res).first()
+        audio_stream.download(output_path=songs_path, filename=f"{song}.mp4")
+
+        prog += 1
+        progressbar(prog, total, message="Converting to MP3...")
+        this_song = f"{songs_path}\\{song}"
+        os.system(f"ffmpeg -i \"{this_song}.mp4\" \"{this_song}.mp3\" -hide_banner -loglevel error")
+        os.remove(f"{this_song}.mp4")
+
+        prog += 1
+        progressbar(prog, total, message="Writing metadata...")
+        cleaner.set_metadata(f"{songs_path}", f"{song}.mp3", author=author, title=title, cover_path=cover_path, album="", check=False)
 
     prog += 1
-    progressbar(prog, total, message="Taking care of the cover...")
-    if cover == "custom":
-        cover_path = custom_cover
+    progressbar(prog, total, message="Done!")
+
+def download_playlists(urls, path, mode):
+    for url in urls:
+        playlist = Playlist(url)
+
+        urls = playlist.video_urls
+        if not urls:
+            print("A playslist é privada ou não existe")
+            continue 
+
+        if mode == "video":
+            download_videos(urls, path)
+        elif mode == "music":
+            download_songs(urls, path)
+        else:
+            print("Nenhuma opção de playlist foi escolhida")
+            break
+
+
+if  __name__ == '__main__':
+    # If there is no subfolder for the videos/songs, create a new one
+    path = f"{os.getcwd()}\\{file}"
+    if not os.path.isdir(path):
+        os.mkdir(path)
+
+    if mode == "playlist" :
+        download_playlists(urls, path, file)
+    elif mode == "video" and file == "video":
+        download_videos(urls, path)
+    elif mode == "video" and file == "music":
+        pass
     else:
-        # Retrieve the thumbnail, if chosen to
-        handleImg(yt.thumbnail_url, name=song)
-        cover_path=f"{os.getcwd()}\\__img_data__\\{song}.jpg"
-        crop_cover(cover_path)
-
-    prog += 1
-    progressbar(prog, total, message="Downloading the video...")
-    # This one is for getting the music in the webm format in 160kbps - Prefer this, but the other is a fallback
-    yt.streams.get_by_itag(251).download(output_path=songs_path, filename=f"{song}.mp4")
-
-    # # This one is for getting the music in the mp4 format in 128kbps
-    # yt.streams.get_by_itag(140).download(output_path=songs_path, filename=f"{song}.mp3")
-
-    prog += 1
-    progressbar(prog, total, message="Converting to MP3...")
-    this_song = f"{songs_path}\\{song}"
-    status = os.system(f"ffmpeg -i \"{this_song}.mp4\" \"{this_song}.mp3\" -hide_banner -loglevel error")
-    os.remove(f"{this_song}.mp4")
-
-    prog += 1
-    progressbar(prog, total, message="Writing metadata...")
-    cleaner.set_metadata(f"{songs_path}", f"{song}.mp3", author=author, title=title, cover_path=cover_path, album="", check=False)
-
-
-prog += 1
-progressbar(prog, total, message="Done!")
-
-
-# # For testing the streams
-# print(yt.streams.filter())
-# for i in yt.streams:
-#     print(i)
-
-# # For downloading the video and audio separately then merging them together
-# yt = YouTube("https://www.youtube.com/watch?v=Oz6x10vRbOY")
-# for i in yt.streams.filter(file_extension='mp4'):
-#     print(i)
-# yt.streams.get_by_itag(137).download("", "video.mp3")
-# yt.streams.get_by_itag(251).download("", "audio.mp3")
-# status = os.system(f"ffmpeg -i video.mp4 -i audio.mp3 -c:v copy -c:a aac grease.mp4")
+        print("Nenhuma opção foi selecionada.")
 
