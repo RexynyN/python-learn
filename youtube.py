@@ -14,14 +14,18 @@ init()
 # ============================== CONFIGS =========================================
 # The video/playlist url
 urls = [
-    "https://www.youtube.com/playlist?list=PL9inGG514dORjBGs3JWlK-3oa44Gdv7c7"
+    "https://www.youtube.com/watch?v=eqCYYMXxd4U",
+    "https://www.youtube.com/watch?v=eKmbCkTsIpc",
+    "https://www.youtube.com/watch?v=-Qn_FiAbCIM",
+    "https://www.youtube.com/watch?v=rRplZZmyuUc",
+    "https://www.youtube.com/watch?v=1QrRM0T3cEo",
 ]
 
 # Either "playlist" or "video"
-mode = "playlist"
+mode = "video"
 
 # Either "video" or "music"
-file = "music"
+file = "video"
 
 # Either "thumbnail" or "custom", just if file = "music"
 cover = "custom"
@@ -30,7 +34,6 @@ cover = "custom"
 custom_cover = "Quarentena Vibes Finale.jpg"
 
 # ================================================================================
-
 
 def clean_filename(name):
     forbidden_chars = '"*\\/\'.|?:<>'
@@ -106,6 +109,9 @@ def download_videos(urls, path):
     resolutions = ["1080p", "720p", "480p", "360p", "240p", "144p"]
     audio_quality = ["160kbps", "128kbps", "70kbps", "50kbps", "48kbps"]
     for url in urls:
+        if not url:
+            continue
+        
         yt = YouTube(url)
 
         print(f"Trabalhando com o vídeo: \"{yt.title}\"")
