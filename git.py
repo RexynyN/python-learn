@@ -3,11 +3,16 @@ import subprocess
 import sys
 from datetime import datetime
 
-
 # ==============================================================
 
 paths = [
-    r"a"
+    r"C:\Users\Admin\codes\shelf",
+    r"C:\Users\Admin\codes\writing",
+    r"C:\Users\Admin\codes\data-science",
+    r"C:\Users\Admin\codes\glow",
+    r"C:\Users\Admin\codes\python-learn",
+    r"C:\Users\Admin\codes\usp-si",
+    r"C:\Users\Admin\codes\current-semester",
 ]
 
 # ==============================================================
@@ -19,8 +24,10 @@ except:
 
 if action == "up":
     for path in paths:
+        os.chdir(path)
         command = subprocess.run(["git","add", "."])
         command = subprocess.run(["git","status"], stdout=subprocess.PIPE, text=True)
+        print(command.stdout)
 
         # (There's) nothing to commit, working tree clean
         if "nothing to commit, working tree clean" in command.stdout:
@@ -32,12 +39,12 @@ if action == "up":
 
         print(command.stdout)
 
-        # command = subprocess.run(["git","push"], stdout=subprocess.PIPE, text=True)
-        # print(command.stdout)
+        command = subprocess.run(["git","push"], stdout=subprocess.PIPE, text=True)
+        print(command.stdout)
 
 elif action == "down":
     for path in paths:
         os.chdir(path)
-        subprocess.run(["git", "pull"])
+        command = subprocess.run(["git", "pull"], stdout=subprocess.PIPE, text=True)
 
-
+        print(command.stdout)
