@@ -6,6 +6,7 @@
 *.epub
 *.html
 *.pdf
+*.torrent
 
 # Personal folders/Way too big folders to github
 kill_me_when_seen/

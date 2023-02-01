@@ -86,7 +86,7 @@ def assert_path(path):
 
 
 def what_in_the_actual_fuck(path):
-    with open('img.json') as f:
+    with open('imgs.json') as f:
         data = json.load(f)
 
     assert_path(path)
@@ -103,4 +103,4 @@ def what_in_the_actual_fuck(path):
 
 if __name__ == "__main__":
     # main()
-    what_in_the_actual_fuck("kill_me_when_seen\\316931")
+    what_in_the_actual_fuck("kill_me_when_seen")
