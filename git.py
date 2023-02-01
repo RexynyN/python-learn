@@ -27,7 +27,7 @@ if action == "up":
             continue
         
         today_commit = datetime.now()
-        today_commit = today_commit.strftime("%m-%d-%Y %H:%M")
+        today_commit = today_commit.strftime("%Y-%m-%d %H:%M")
         command = subprocess.run(["git","commit", "-m", today_commit], stdout=subprocess.PIPE, text=True)
 
         print(command.stdout)
