@@ -1,7 +1,7 @@
 import os
 import subprocess
 import sys
-
+from datetime import datetime
 
 
 # ==============================================================
@@ -19,12 +19,21 @@ except:
 
 if action == "up":
     for path in paths:
-        useless_cat_call = subprocess.run(["git","pull"], 
-                                  stdout=subprocess.PIPE, 
-                                  text=True, 
-                                  input="Hello from the other side")
+        command = subprocess.run(["git","add", "."])
+        command = subprocess.run(["git","status"], stdout=subprocess.PIPE, text=True)
 
-        print(useless_cat_call.stdout.strip()) 
+        # (There's) nothing to commit, working tree clean
+        if "nothing to commit, working tree clean" in command.stdout:
+            continue
+        
+        today_commit = datetime.now()
+        today_commit = today_commit.strftime("%m-%d-%Y %H:%M")
+        command = subprocess.run(["git","commit", "-m", today_commit], stdout=subprocess.PIPE, text=True)
+
+        print(command.stdout)
+
+        # command = subprocess.run(["git","push"], stdout=subprocess.PIPE, text=True)
+        # print(command.stdout)
 
 elif action == "down":
     for path in paths:
