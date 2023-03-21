@@ -106,7 +106,7 @@ class ImageUtils:
         return os.getcwd() + "\\__img_data__"
 
 
-    def img_to_pdf(self, files, path, name, keep=False):
+    def img_to_pdf(self, files, path, name, keep=True):
         print("Criando arquivo...")
         doc = Canvas(name)
 

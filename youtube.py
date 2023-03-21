@@ -5,7 +5,7 @@ import colorama
 from pytube import YouTube, Playlist
 from requests import get
 from shutil import copyfileobj
-from musiccleaner import MusicCleaner
+# from musiccleaner import MusicCleaner
 from PIL import Image
 from colorama import init
 # import moviepy.editor as mp
@@ -15,9 +15,9 @@ init()
 # ============================== CONFIGS =========================================
 # The video/playlist urls
 urls = [
-    "https://www.youtube.com/watch?v=OIwxjFoO3U0",
-    "https://www.youtube.com/watch?v=JiMZPRb8mLM",
-    "https://www.youtube.com/watch?v=PMlSbiHYim4", 
+    "https://www.youtube.com/watch?v=8bkcU9kdL30&ab_channel=IM%2BAulas",
+    "https://www.youtube.com/watch?v=F5ye8Ds-ebU&ab_channel=IM%2BAulas",
+    "https://www.youtube.com/watch?v=7AD3Auy71Dc&ab_channel=IM%2BAulas", 
 ]
 
 # Either "playlist" or "video"
