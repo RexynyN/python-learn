@@ -7,6 +7,9 @@
 *.html
 *.pdf
 *.torrent
+*.xhtml
+*.zip
+*.rar
 
 # Personal folders/Way too big folders to github
 kill_me_when_seen/
@@ -14,6 +17,7 @@ source/
 video/
 music/
 models/
+__book__/
 
 # Sensitive files
 **/credentials.txt

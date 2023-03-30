@@ -1,20 +1,39 @@
+import shutil
+import zipfile
+import pathlib
 import re
 import unicodedata
 import commonmark
 import os
-from os.path import join
+from bs4 import BeautifulSoup
+from os.path import join, sep
 
-def retrieve_mdfiles(path: str) -> list:
+
+def zip_epub(title: str, path: str = "__book__") -> None:
+	directory = pathlib.Path(path)
+	with zipfile.ZipFile(f"{title}.epub", mode="w") as zipf:
+		for file in directory.rglob("*"):
+			zipf.write(
+				file,
+				arcname=file.relative_to(directory)
+			)
+
+
+def retrieve_mdfiles(path: str, recursive: bool = False, exclude_paths: str = []) -> list:
 	fillets = []
 
 	if not os.path.isdir(path):
 		raise ValueError("Given path is not a directory")
 	
-	exclude = set([".obsidian", ".git"])
-	for root, dirs, files in os.walk(path, topdown=True):
-		[dirs.remove(d) for d in list(dirs) if d in exclude]
-		for name in files:
-			fillets.append(os.path.join(root, name))
+	if recursive:
+		exclude = set(exclude_paths)
+		for root, dirs, files in os.walk(path, topdown=True):
+			[dirs.remove(d) for d in list(dirs) if d in exclude]
+			for name in files:
+				fillets.append(os.path.join(root, name))
+	else:
+		fillets = [os.path.join(path, file) for file in os.listdir(path)]
+		fillets = [file for file in fillets if not os.path.isdir(file)] 
 
 	mds = [file for file in fillets if file.endswith(".md")]
 	return mds
@@ -48,10 +67,6 @@ HTML = '''<?xml version="1.0" encoding="utf-8" standalone="no"?>
 
 path = "/home/breno/codes/writing"
 
-# Based on the boilerplate seen in https://github.com/javierarce/epub-boilerplate
-book_structure = ['META-INF', 'OEBPS', join('OEBPS', 'images'), join('OEBPS', 'styles'),join('OEBPS', 'text')]
-for path in book_structure:
-	os.makedirs(join("__book__", path), exist_ok=True)
 
 content_path = join('__book__', 'OEBPS', 'text')
 for file in retrieve_mdfiles(path):
@@ -60,13 +75,17 @@ for file in retrieve_mdfiles(path):
 	with open(file, "r", encoding="utf-8") as f:
 		data = f.read()
 		data = commonmark.commonmark(data)
-		title = file.split(".")[0]
+		# Get the name of the file
+		title = file.split(sep)[-1].split(".")[0]
 		content = HTML.replace("$$CONTENT$$", data)
 		content = content.replace("$$TITLE$$", title)
 		content = content.replace("$$SLUG$$", slugify(title))
 		with open(join(content_path, f"{slugify(title)}.xhtml"), "w", encoding="UTF-8") as f:
 			f.write(content)
 
+
+zip_epub("TesteBreno", "__book__")
+shutil.rmtree("__book__")
 
 
 
