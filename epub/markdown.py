@@ -67,7 +67,6 @@ HTML = '''<?xml version="1.0" encoding="utf-8" standalone="no"?>
 
 path = "/home/breno/codes/writing"
 
-
 content_path = join('__book__', 'OEBPS', 'text')
 for file in retrieve_mdfiles(path):
 	print(file)
