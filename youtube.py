@@ -35,6 +35,12 @@ custom_cover = "source\\Quarentena Vibes Finale.jpg"
 # to use ffmpeg converter, must install it; either True or False
 ffmpeg_convert = True
 
+# an array of arrays of tuples, to make clips 
+clips = [
+    [("00:00:00", "00:00:00"), ("00:00:00", "00:00:00")],
+    [("00:00:00", "00:00:00")],
+]
+
 # ================================================================================
 
 def moviepy_convert(path, file):
@@ -281,10 +287,15 @@ def download_playlists(urls, path, mode):
 
 if __name__ == '__main__':
     # If there is no subfolder for the videos/songs, create a new one
-    path = f"{os.getcwd()}\\{file}"
+    if clips and len(clips) != len(urls):
+        print("The clips array is missing arguments for all the videos")
+        exit()
+
+    path = os.path.join(os.getcwd(), file)
     if not os.path.isdir(path):
         os.mkdir(path)
 
+    
     if mode == "playlist":
         download_playlists(urls, path, file)
     elif mode == "video" and file == "video":
