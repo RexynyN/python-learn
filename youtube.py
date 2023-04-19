@@ -2,13 +2,16 @@ import os
 import unicodedata
 import re
 import colorama
+import subprocess
+from os.path import join as join_path
 from pytube import YouTube, Playlist
 from requests import get
 from shutil import copyfileobj
-# from musiccleaner import MusicCleaner
 from PIL import Image
 from colorama import init
 # import moviepy.editor as mp
+# from musiccleaner import MusicCleaner
+
 init()
 
 
@@ -37,8 +40,8 @@ ffmpeg_convert = True
 
 # an array of arrays of tuples, to make clips 
 clips = [
-    [("00:00:00", "00:00:00"), ("00:00:00", "00:00:00")],
-    [("00:00:00", "00:00:00")],
+    [("00:00:00", "00:00:00"), ("00:00:00", "00:00:00")], # clip 1
+    [("00:00:00", "00:00:00")], # clip 2
 ]
 
 # ================================================================================
@@ -184,8 +187,8 @@ def download_videos(urls, path):
 
             # Using ffmpeg, merge the video and audio
             print("Eu tô juntando os dois... (pode demorar um pouquinho dependendo do tamanho do vídeo, segura aí)")
-            status = os.system(
-                f"ffmpeg -i video.mp4 -i audio.mp3 -c:v copy -c:a aac \"{path}\\{clean_filename(yt.title)}.mp4\" -hide_banner -loglevel error")
+            subprocess.call(['ffmpeg', '-i video.mp4', '-i audio.mp3', '-c:v copy' '-c:a aac', 
+                             "\"" +join_path(path, clean_filename(yt.title)) + ".mp4\"", "-hide_banner -loglevel error"])
 
             # Remove the individual files
             os.remove(f"video.mp4")
@@ -253,9 +256,10 @@ def download_songs(urls, songs_path):
 
         prog += 1
         progressbar(prog, total, message="Converting to MP3...")
-        this_song = f"{songs_path}\\{song}"
-        os.system(
-            f"ffmpeg -i \"{this_song}.mp4\" \"{this_song}.mp3\" -hide_banner -loglevel error")
+        this_song = join_path(songs_path, song)
+
+        subprocess.call(["ffmpeg", "-i", this_song + ".mp4", "-i", this_song + ".mp3", "-hide_banner -loglevel error"])
+        
         os.remove(f"{this_song}.mp4")
 
         prog += 1
@@ -266,6 +270,18 @@ def download_songs(urls, songs_path):
     prog += 1
     progressbar(prog, total, message="Done!")
 
+def create_clips(clips, files):
+
+    for clip in clips:
+        for chunk in clip:
+            start_time = chunk[0]
+            end_time = chunk[1]
+
+            subprocess.call(['ffmpeg', '-i', input_file, '-ss', start_time, '-to', end_time, '-c', 'copy', output_file])
+
+            # # Usa duração
+            # duration = "10"
+            # subprocess.call(['ffmpeg', '-i', input_file, '-ss', start_time, '-t', duration, '-c', 'copy', output_file])
 
 def download_playlists(urls, path, mode):
     for url in urls:
@@ -286,11 +302,11 @@ def download_playlists(urls, path, mode):
 
 
 if __name__ == '__main__':
-    # If there is no subfolder for the videos/songs, create a new one
     if clips and len(clips) != len(urls):
         print("The clips array is missing arguments for all the videos")
         exit()
 
+    # If there is no subfolder for the videos/songs, create a new one
     path = os.path.join(os.getcwd(), file)
     if not os.path.isdir(path):
         os.mkdir(path)
