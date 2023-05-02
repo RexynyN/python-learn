@@ -8,4 +8,4 @@ setTimeout(async () => {
         document.getElementsByClassName("next")[0].click();
     }
     await window.navigator.clipboard.writeText(imgs)
-}, 3000);
+}, 2000);

@@ -4,7 +4,7 @@ console.log("Hello World!");
 
 // Mas tem uma coisa errada com esse código. Qual é? 
 
-// Exatamente, esse é um Hello World chato, se eu quisesse ver letrinha no terminal
+// Exatamente, esse é um Hello World chato. se eu quisesse ver letrinha no terminal
 // Eu ia passar raiva no C, e não estava no JavaScript
 
 document.write("Hello World!");
@@ -56,3 +56,18 @@ pagina.appendChild(texto);
 // esse hello world que a gente fez é um pequeno exemplo do próposito do javascript: transformar sites em coisas dinâmicas, que mudam e interagem
 // e isso é só o começo, porque criar novos elementos em tela é só o mínimo que o js consegue fazer. 
 
+let baseUrl = "https://www.google.com/search?q="
+let params = ["Flop", "Slartiblartfast", "ArthurDent"]
+
+for (let p of params)
+    window.open(baseUrl + p, '_blank').focus();
+
+// The la jQuery
+
+let breno = ["Breno", "da", "Silva", "Nogueira"];
+
+$.each(breno, (index, blob) => {
+    let element = `<p>${blob}</p>`
+    console.log(element);
+    // $("#brenobreno").append(element)
+})
