@@ -1,4 +1,2 @@
-from PIL import Image
+import image_hash
 
-img = Image.open("img.png")
-img.save("img_compresed.jpg", "JPEG", optimize=True, quality=10)

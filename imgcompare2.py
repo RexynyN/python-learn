@@ -74,6 +74,7 @@ class CompareImage(object):
 
 
 if __name__ == '__main__':
-    compare_image = CompareImage('igor.jpg', 'igor3.png')
+    compare_image = CompareImage('notebooks/bingus.jpg', 'notebooks/floppa.jpg')
     image_difference = compare_image.compare_image()
     print(image_difference)
+    print(CompareImage.get_image_difference('notebooks/bingus.jpg', 'notebooks/floppa.jpg'))

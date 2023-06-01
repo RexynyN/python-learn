@@ -5,7 +5,7 @@ import inquirer
 from shutil import move as replace_file
 
 
-# Deprecated, uses too many memory and time to loop over, but hey, you can quickly use it in a small pool of images
+# Deprecated, uses too much memory and time to loop over, but hey, you can quickly use it in a small pool of images
 def img_compare(path, img1, img2, cutoff=5):
     if img1 == img2:
         return False

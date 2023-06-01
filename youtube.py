@@ -18,9 +18,11 @@ init()
 # ============================== CONFIGS =========================================
 # The video/playlist urls
 urls = [
-    "https://www.youtube.com/watch?v=8bkcU9kdL30&ab_channel=IM%2BAulas",
-    "https://www.youtube.com/watch?v=F5ye8Ds-ebU&ab_channel=IM%2BAulas",
-    "https://www.youtube.com/watch?v=7AD3Auy71Dc&ab_channel=IM%2BAulas", 
+    "https://www.youtube.com/watch?v=FNYRTmXBAVY",
+    "https://www.youtube.com/watch?v=BkDQI-W1Wh4",
+    "https://www.youtube.com/watch?v=8km6wx0wRAI",
+    "https://www.youtube.com/watch?v=Xg0dFud8kqM",
+    "https://www.youtube.com/watch?v=rpqmDEBlTIc",
 ]
 
 # Either "playlist" or "video"
@@ -40,8 +42,8 @@ ffmpeg_convert = True
 
 # an array of arrays of tuples, to make clips 
 clips = [
-    [("00:00:00", "00:00:00"), ("00:00:00", "00:00:00")], # clip 1
-    [("00:00:00", "00:00:00")], # clip 2
+#     [("00:00:00", "00:00:00"), ("00:00:00", "00:00:00")], # clip 1
+#     [("00:00:00", "00:00:00")], # clip 2
 ]
 
 # ================================================================================
@@ -187,8 +189,7 @@ def download_videos(urls, path):
 
             # Using ffmpeg, merge the video and audio
             print("Eu tô juntando os dois... (pode demorar um pouquinho dependendo do tamanho do vídeo, segura aí)")
-            subprocess.call(['ffmpeg', '-i video.mp4', '-i audio.mp3', '-c:v copy' '-c:a aac', 
-                             "\"" +join_path(path, clean_filename(yt.title)) + ".mp4\"", "-hide_banner -loglevel error"])
+            subprocess.call(f"ffmpeg -i video.mp4 -i audio.mp3 -c:v copy -c:a aac \"{join_path(path, clean_filename(yt.title))}.mp4\" -hide_banner -loglevel error")
 
             # Remove the individual files
             os.remove(f"video.mp4")
@@ -320,3 +321,4 @@ if __name__ == '__main__':
         pass
     else:
         print("Nenhuma opção foi selecionada.")
+
