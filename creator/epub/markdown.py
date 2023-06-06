@@ -13,10 +13,7 @@ def zip_epub(title: str, path: str = "__book__") -> None:
 	directory = pathlib.Path(path)
 	with zipfile.ZipFile(f"{title}.epub", mode="w") as zipf:
 		for file in directory.rglob("*"):
-			zipf.write(
-				file,
-				arcname=file.relative_to(directory)
-			)
+			zipf.write(file, arcname=file.relative_to(directory))
 
 
 def retrieve_mdfiles(path: str, recursive: bool = False, exclude_paths: str = []) -> list:

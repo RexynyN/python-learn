@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-
-
 import argparse
 
 import requests
@@ -210,7 +207,7 @@ if __name__ == '__main__':
 	import sys
 
 	if sys.version_info[0] == 2:
-		print('Python3 is required.')
+		print('Python 3 is required.')
 		sys.exit(1)
 
 	parser = argparse.ArgumentParser()
