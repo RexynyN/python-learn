@@ -12,3 +12,6 @@ files_2 = os.listdir(path_2)
 for i in files_1:
     if extension + i in files_2:
         print(extension + i) 
+
+
+        

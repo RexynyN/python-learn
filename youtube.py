@@ -18,11 +18,7 @@ init()
 # ============================== CONFIGS =========================================
 # The video/playlist urls
 urls = [
-    "https://www.youtube.com/watch?v=FNYRTmXBAVY",
-    "https://www.youtube.com/watch?v=BkDQI-W1Wh4",
-    "https://www.youtube.com/watch?v=8km6wx0wRAI",
-    "https://www.youtube.com/watch?v=Xg0dFud8kqM",
-    "https://www.youtube.com/watch?v=rpqmDEBlTIc",
+    ""
 ]
 
 # Either "playlist" or "video"
