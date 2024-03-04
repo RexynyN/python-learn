@@ -18,7 +18,13 @@ init()
 # ============================== CONFIGS =========================================
 # The video/playlist urls
 urls = [
-    ""
+    "https://www.youtube.com/watch?v=trFAEckkook",
+    "https://www.youtube.com/watch?v=juqyYfuOVjM",
+    "https://www.youtube.com/watch?v=wKvur8YsQmg",
+    "https://www.youtube.com/watch?v=5jSQwFJVB9g",
+    "https://www.youtube.com/watch?v=fWknZaE7XT8",
+    "https://www.youtube.com/watch?v=khMcm0iGV70",
+    "https://www.youtube.com/watch?v=klikC1rG-gs",
 ]
 
 # Either "playlist" or "video"
@@ -106,8 +112,6 @@ def progressbar(progress, total, message="", color=colorama.Fore.YELLOW):
         print("\n")
 
 # Uses the img source to download the image
-
-
 def handleImg(src, name=""):
     img_path = f"{os.getcwd()}\\__img_data__\\"
 
@@ -160,10 +164,9 @@ def download_videos(urls, path):
             print(f"{yt.title} foi baixado com sucesso!")
         else:
             # If not, downloads the audio and video separatedly
-            print(
-                "O vídeo não possui uma stream progressiva, o áudio e o vídeo serão baixados separadamente.")
+            print("O vídeo não possui uma stream progressiva, o áudio e o vídeo serão baixados separadamente.")
             video_stream = yt.streams.filter(
-                resolution="720p", mime_type="video/mp4", only_video=True).first()
+                resolution=best_res, mime_type="video/mp4", only_video=True).first()
 
             # Finds the best audio quality to download from
             best_res = ""
@@ -172,8 +175,7 @@ def download_videos(urls, path):
                     best_res = audio
                     break
 
-            audio_stream = yt.streams.filter(
-                only_audio=True, abr=best_res).first()
+            audio_stream = yt.streams.filter(only_audio=True, abr=best_res).first()
 
             # Downloads video
             print("Eu tô baixando o video...")
